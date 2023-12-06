@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from './AuthContext';
 export default function Home() {
     const {setRol } = useAuth();
+    const {setUser } = useAuth();
     const navigate = useNavigate();
     useEffect(() => {
         fetch('http://localhost:3001/', {
@@ -17,9 +18,10 @@ export default function Home() {
         .then(data => {
             if(data.valid){
                 setRol(data.rol);
-                if(data.rol === "Operario") {
+                setUser(data.username);
+                if(data.rol === "Operario" || data.rol == "Admin") {
                     navigate('/operario');
-                } else if(data.rol === "Admin") {
+                } else if(data.rol === "Visualizador") {
                     navigate('/admin');
                 }
             } else {
@@ -30,6 +32,6 @@ export default function Home() {
             console.error('Error:', error);
         });
      
-    }, [navigate, setRol]);
+    }, [navigate, setRol, setUser]);
     return null;
 }

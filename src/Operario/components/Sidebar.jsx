@@ -10,9 +10,11 @@ import {
 } from "@material-tailwind/react";
 
 import { useAppContext } from '../../AppContext';
+import { useAuth } from '../../AuthContext';
 
 export default function Sidebar() {
 
+  const { user } = useAuth();
   const { state, dispatch } = useAppContext();
   const handleClickAgregarCamara = () => {
     dispatch({ type: 'TOGGLE_FORM', form: 'agregarCamarasForm', payload: true });
@@ -46,7 +48,7 @@ export default function Sidebar() {
             <Link to="/operario/registros"
               className='w-full'>
               <Button
-                className={"w-full h-12 flex items-center gap-4 px-4 focus:outline-none " + (location.pathname.includes('/operario/registros') ? "bg-azul shadow-md hover:shadow-lg hover:shadow-blue-300/40 " : " hover:bg-white/10 active:bg-white/30 bg-transparent shadow-none hover:shadow-none")}
+                className={"w-full h-12 flex items-center gap-4 px-4 border-none " + (location.pathname.includes('/operario/registros') ? "bg-azul shadow-md hover:shadow-lg hover:shadow-blue-300/40 " : " hover:bg-white/10 active:bg-white/30 bg-transparent shadow-none hover:shadow-none")}
               >
                 <EventIcon></EventIcon>
                 <Typography
@@ -62,7 +64,7 @@ export default function Sidebar() {
             <Link to="/operario/camaras"
               className='w-full'>
               <Button
-                className={"w-full h-12 flex items-center gap-4 px-4 focus:outline-none " + (location.pathname.includes('/operario/camaras') ? "bg-azul shadow-md hover:shadow-lg hover:shadow-blue-300/40 " : " hover:bg-white/10 active:bg-white/30 bg-transparent shadow-none hover:shadow-none")}
+                className={"w-full h-12 flex items-center gap-4 px-4 border-none " + (location.pathname.includes('/operario/camaras') ? "bg-azul shadow-md hover:shadow-lg hover:shadow-blue-300/40 " : " hover:bg-white/10 active:bg-white/30 bg-transparent shadow-none hover:shadow-none")}
               >
                 <CameraAltIcon></CameraAltIcon>
                 <Typography
@@ -75,48 +77,41 @@ export default function Sidebar() {
             </Link>
           </li>
         </ul>
-        <ul className="mb-4 flex flex-col gap-2">
-          <li class="mx-3.5 mt-4 mb-2"><p class="block antialiased font-sans text-sm leading-normal text-white font-black uppercase opacity-75">Opciones de admin</p></li>
-          <li >
-            <Button
-              className="w-full h-12 flex items-center gap-4 px-4 bg-azul hover:shadow-blue-300/40  hover:bg-white/10 active:bg-white/30 bg-transparent shadow-none hover:shadow-none"
-              onClick={() => handleClickAgregarCamara()}
+        {user === "admin" && (
+          <ul className="mb-4 flex flex-col gap-2">
+            <li class="mx-3.5 mt-4 mb-2"><p class="block antialiased font-sans text-sm leading-normal text-white font-black uppercase opacity-75">Admin</p></li>
+            <li >
+              <Link to="/operario/sectores">
+                <Button
+                  className={"w-full h-12 flex items-center gap-4 px-4 border-none " + (location.pathname.includes('/operario/sectores') ? "bg-azul shadow-md hover:shadow-lg hover:shadow-blue-300/40 " : " hover:bg-white/10 active:bg-white/30 bg-transparent shadow-none hover:shadow-none")}
 
-            >
-              <Typography
-                color="inherit"
-                className="semibold  text-[15px] capitalize"
-              >
-                Agregar camara
-              </Typography>
-            </Button>
-          </li>
-          <li >
-            <Button
-              className="w-full h-12 flex items-center gap-4 px-4 bg-azul hover:shadow-blue-300/40  hover:bg-white/10 active:bg-white/30 bg-transparent shadow-none hover:shadow-none"
+                >
+                  <Typography
+                    color="inherit"
+                    className="semibold text-[15px] capitalize"
+                  >
+                    Sectores
+                  </Typography>
+                </Button>
+              </Link>
+            </li>
+            <li >
+              <Link to="/operario/eventos">
+                <Button
+                  className={"w-full h-12 flex items-center gap-4 px-4 border-none " + (location.pathname.includes('/operario/eventos') ? "bg-azul shadow-md hover:shadow-lg hover:shadow-blue-300/40 " : " hover:bg-white/10 active:bg-white/30 bg-transparent shadow-none hover:shadow-none")}
+                >
+                  <Typography
+                    color="inherit"
+                    className="semibold text-[15px] capitalize"
+                  >
+                    Eventos
+                  </Typography>
+                </Button>
+              </Link>
+            </li>
+          </ul>
+        )}
 
-            >
-              <Typography
-                color="inherit"
-                className="semibold text-[15px] capitalize"
-              >
-                Agregar estado
-              </Typography>
-            </Button>
-          </li>
-          <li >
-            <Button
-              className="w-full h-12 flex items-center gap-4 px-4 bg-azul hover:shadow-blue-300/40  hover:bg-white/10 active:bg-white/30 bg-transparent shadow-none hover:shadow-none"
-            >
-              <Typography
-                color="inherit"
-                className="semibold text-[15px] capitalize"
-              >
-                Agregar sector
-              </Typography>
-            </Button>
-          </li>
-        </ul>
       </div>
     </aside>
   );

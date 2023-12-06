@@ -79,7 +79,7 @@ export default function Historial() {
 
     return (
         <>
-        <Sidebar></Sidebar>
+            <Sidebar></Sidebar>
             <div className='xl:ml-80 h-[calc(100vh-32px)] my-4 px-4 max-w-screen rounded-xl transition-transform duration-300 xl:translate-x-0 '>
                 <Nav></Nav>
                 <div className='text-sm  text-gray-800 flex flex-col justify-center w-full bg-white p-6 shadow-lg rounded-xl  mt-3 '>
@@ -118,42 +118,32 @@ export default function Historial() {
                     {historial.length !== 0 && (
                         <div className="mt-5 w-full rounded-lg shadow-md border border-gray-200">
 
-                            <div className=" overflow-y-auto scrollbar-container bg-white h-[calc(100vh-245px)]  px-6 justify-center ">
+                            <div className=" overflow-y-auto scrollbar-container bg-white h-[calc(100vh-450px)]  px-6 justify-center ">
 
                                 <div className=" w-full ">
                                     {Object.entries(registrosPorFecha).map(([fecha, registros]) => (
                                         <div key={fecha} >
                                             <div class="TimelineItem pt-5 pb-5">
                                                 <div className=" w-[2rem] flex text-center items-center h-[1rem] ml-[-0.45rem] bg-white z-20">
-                                                    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" className="fill-gray-500">
-                                                        <path d="M11.93 8.5a4.002 4.002 0 0 1-7.86 0H.75a.75.75 0 0 1 0-1.5h3.32a4.002 4.002 0 0 1 7.86 0h3.32a.75.75 0 0 1 0 1.5Zm-1.43-.75a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-point-filled" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z" stroke-width="0" fill="currentColor" />
                                                     </svg>
                                                 </div>
                                                 <div class="mt-[-0.20rem] w-full">
-                                                    <h2 class="text-md px-2">Cambios registrados el {fecha}</h2>
+                                                    <h2 class="text-md px-2 semibold">Cambios registrados el {fecha}</h2>
                                                     <Accordion hideIndicator >
                                                         {registros.map((cambio) => (
                                                             <AccordionItem
                                                                 key={cambio.ID}
                                                                 aria-label={cambio.ID}
                                                                 title={
-                                                                    <div className='flex w-full px-1 py-1 items-center '>
+                                                                    <div className='flex w-full px-4  items-center '>
                                                                         <div className="flex items-center">
-                                                                            {selectedCambio === fecha ? (
-                                                                                <IconButton
-                                                                                >
-                                                                                    <KeyboardArrowUpIcon></KeyboardArrowUpIcon>
-                                                                                </IconButton>
-
-
-                                                                            ) : (
-                                                                                <IconButton>
-                                                                                    <KeyboardArrowDownIcon ></KeyboardArrowDownIcon>
-                                                                                </IconButton>
-                                                                            )}
-                                                                            <div className="flex gap-1 items-center align-bottom ">
-                                                                                <p className="font-bold text-[14px] text-gray-600">Diego Espinoza</p>
-                                                                                <p className="text-xs ali">Cambio realizado a las {new Date(cambio.fecha_modificacion).toLocaleDateString('es-CL', {
+                                                                          
+                                                                            <div className="flex gap-1 items-end">
+                                                                                <p className="font-bold text-xs text-gray-600">Diego Espinoza</p>
+                                                                                <p className="text-xs ">Cambio realizado a las {new Date(cambio.fecha_modificacion).toLocaleDateString('es-CL', {
                                                                                     hour: "numeric",
                                                                                     minute: "numeric",
                                                                                 }).split(' ')[1]} hrs</p>
@@ -162,18 +152,16 @@ export default function Historial() {
                                                                         </div>
                                                                     </div>
                                                                 }
-                                                                onPress={() => toggleCambio(fecha)}
+                                                                onPress={() => toggleCambio(cambio.fecha)}
                                                                 className='w-full mt-3 shadow-md outline-none rounded-lg  hover:shadow-md transition-all duration-200 mb-3 hover:bg-gray-300 text-base bg-gray-200 border border-gray-300 '
                                                             >
-                                                                <div className="px-11">
+                                                                <div className="px-4 text-xs">
                                                                     <div className="flex gap-1 mb-1">
-                                                                        <label className="font-bold text-[14px] text-gray-700">Camara:</label>
+                                                                        <label className="font-bold text-gray-700">Camara:</label>
                                                                         <p>{cambio.id_camara}</p>
                                                                     </div>
-
-
                                                                     <div className="flex gap-1 mb-1">
-                                                                        <label className="font-bold text-[14px] text-gray-700">Fecha:</label>
+                                                                        <label className="font-bold  text-gray-700">Fecha:</label>
                                                                         <p >{new Date(cambio.fecha).toLocaleString('es-ES', {
                                                                             year: 'numeric',
                                                                             month: 'numeric',
@@ -184,19 +172,12 @@ export default function Historial() {
                                                                     </div>
 
                                                                     <div className="flex gap-1 mb-1">
-
-                                                                        <label className="font-bold text-[14px] text-gray-700">Evento:</label>
+                                                                        <label className="font-bold  text-gray-700">Evento:</label>
                                                                         <p>{cambio.tipo}</p>
                                                                     </div>
                                                                     <div className="flex gap-1 mb-1">
 
-                                                                        <label className="font-bold text-[14px] text-gray-700">Notificado:</label>
-                                                                        <p>No</p>
-                                                                    </div>
-
-                                                                    <div className="flex gap-1 mb-1">
-
-                                                                        <label className="font-bold text-[14px] text-gray-700">Descripcion</label>
+                                                                        <label className="font-bold  text-gray-700">Descripcion</label>
                                                                         <p>{cambio.descripcion}</p>
                                                                     </div>
 
@@ -212,8 +193,9 @@ export default function Historial() {
                                     ))}
                                     <div class="TimelineItem pt-2 pb-2 ">
                                         <div className=" w-[2rem] flex text-center items-center h-[1rem] ml-[-0.45rem] bg-white z-20 mb-2">
-                                            <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" className="fill-gray-500">
-                                                <path d="M11.93 8.5a4.002 4.002 0 0 1-7.86 0H.75a.75.75 0 0 1 0-1.5h3.32a4.002 4.002 0 0 1 7.86 0h3.32a.75.75 0 0 1 0 1.5Zm-1.43-.75a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-point-filled" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z" stroke-width="0" fill="currentColor" />
                                             </svg>
                                         </div>
                                         <div class="TimelineItem-body mt-[-0.20rem]">

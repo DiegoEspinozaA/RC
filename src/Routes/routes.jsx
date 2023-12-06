@@ -7,6 +7,8 @@ import Estados from '../Operario/pages/Estados';
 import Historial from '../Operario/pages/Historial';
 import HistorialCamara from '../Operario/pages/HistorialCamara';
 import Registro from '../Operario/pages/Registro';
+import Sectores from '../Admin/pages/Sectores';
+import Eventos from '../Admin/pages/Eventos';
 export const rutas_operario = [
     {
         path: '/operario',
@@ -36,6 +38,14 @@ export const rutas_operario = [
     ,{
         path: '/operario/camaras/camara/:id',
         element: <Registro />,
+    }
+    ,{
+        path: '/operario/sectores',
+        element: <Sectores />,
+    }
+    ,{
+        path: '/operario/eventos',
+        element: <Eventos />,
     }
 ];
 

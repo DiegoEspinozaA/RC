@@ -47,6 +47,7 @@ export const actualizarYSetearRegistros = async (formData, dispatch) => {
   if (exito) {
     try {
       const nuevosRegistros = await fetchData('registros');
+      
       dispatch({ type: 'SET_REGISTROS', payload: nuevosRegistros });
       return true;
     } catch (error) {

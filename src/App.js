@@ -36,7 +36,7 @@ function App() {
 
           {rutas_admin.map((route, index) => (
             <Route key={index} path={route.path} element={
-              <PrivateRoute allowedRoles={["Admin"]}>
+              <PrivateRoute allowedRoles={["Visualizador"]}>
                 {route.element}
               </PrivateRoute>
             } />
@@ -44,7 +44,7 @@ function App() {
 
           {rutas_operario.map((route, index) => (
             <Route key={index} path={route.path} element={
-              <PrivateRoute allowedRoles={["Operario"]}>
+              <PrivateRoute allowedRoles={["Operario", "Admin"]}>
                 {route.element}
               </PrivateRoute>
             } />

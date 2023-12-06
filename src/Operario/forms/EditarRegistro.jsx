@@ -10,6 +10,16 @@ export default function EditarRegistro() {
     const tiposEventos = state.tiposEventos;
 
 
+    function formatearFecha(fechaISO) {
+        const fecha = new Date(fechaISO);
+        const dia = fecha.getDate().toString().padStart(2, '0');
+        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+        const anio = fecha.getFullYear();
+        const horas = fecha.getHours().toString().padStart(2, '0');
+        const minutos = fecha.getMinutes().toString().padStart(2, '0');
+        return `${dia}-${mes}-${anio} ${horas}:${minutos}`;
+    }
+
     const blankState = {
         id: registro.id,
         id_camara: '',
@@ -18,16 +28,26 @@ export default function EditarRegistro() {
         descripcion: '',
         color: '',
     }
+    function formatDateTime(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+    
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+
 
     const registroState = {
         id: registro.id,
         id_camara: registro.id_camara,
-        fecha: registro.fecha,
+        fecha: formatDateTime(registro.fecha),
         tipo: registro.tipo,
         descripcion: registro.descripcion,
         color: tiposEventos.find((evento) => evento.tipo === registro.tipo).color,
     }
-
 
     const handleCloseModal = () => {
         dispatch({ type: 'TOGGLE_FORM', form: 'showAgregarInformacionForm', payload: false });

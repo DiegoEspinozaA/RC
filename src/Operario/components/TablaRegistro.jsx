@@ -93,7 +93,7 @@ export default function TablaRegistros(props) {
 
                         </button>
 
-                        <Link to={`/operario/camaras/camara/${id}/historial/${registro.id}`}>
+                        <Link to={`/camaras/camara/${id}/historial/${registro.id}`}>
                             <button className='text-blue-400  py-1 px-2 rounded font-semibold text-xs hover:bg-blue-100 transition-all duration-200 relative '
                             onClick={() => handleChangeRegistroSelected(registro)}>
                                 <div className="flex gap-1">

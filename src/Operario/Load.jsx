@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Link from '../Apiconf';
 
 export default function  Load() {
-  const { state, dispatch } = useAppContext();
+  const { dispatch } = useAppContext();
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {

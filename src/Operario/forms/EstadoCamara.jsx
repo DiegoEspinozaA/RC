@@ -4,10 +4,12 @@ import { correcta, incorrecta } from "../../Toast/Notificaciones";
 import { useAppContext } from '../../AppContext';
 import { Button } from "@material-tailwind/react";
 import { actualizarEstadoCamara } from "../../fetchApi";
+
 export default function EstadoCamara() {
     const { state, dispatch } = useAppContext();
     const estado_actual = state.EstadoCamaraSelectedCamera;
     const estados = state.tiposEstados;
+
 
     const handleCloseModal = () => {
         dispatch({ type: 'TOGGLE_FORM', form: 'showEstadoCamaraForm', payload: false });
@@ -25,8 +27,9 @@ export default function EstadoCamara() {
         
         const datos = {
             idCamara: idCamara,
-            nuevoEstadoId: estadoSeleccionado
+            nuevoEstadoId: parseInt(estadoSeleccionado)
         };
+
         const exito = await actualizarEstadoCamara(datos, dispatch);
         if (exito) {
             correcta("Registro actualizado exitosamente");
@@ -60,6 +63,11 @@ export default function EstadoCamara() {
         setEstadoSeleccionado(event.target.value);
     };
 
+
+    console.log();
+
+console.log(estados);
+console.log(parseInt(estadoSeleccionado))
     return (
         <>
             <div className="bg-zinc-900/40 p-10 text-black fixed inset-0 flex items-center justify-center z-50 overflow-y-auto">
@@ -83,7 +91,7 @@ export default function EstadoCamara() {
                             <div className='border border-gray-200 bg-gray-100 p-4 rounded-lg mt-2 w-full'>
                                 <div className='flex items-center justify-around '>
                                     <div className='mr-4 flex flex-col items-center justify-center'>
-                                        <p>Estado Actual</p>
+                                        <p>{estado_actual.EstadoActual}</p>
                                         <div
                                             className="mt-2 focus:outline-none semibold text-lg mb-5 shadow-md flex bg-white items-center text-gray-800 justify-center w-16 h-16  rounded-xl  font-bold transition-all duration-200"
                                             style={{ borderTopColor: estado_actual.color ? estado_actual.color : 'gray', borderTopWidth: '8px' }}
@@ -100,7 +108,7 @@ export default function EstadoCamara() {
                                         </svg>
                                     </div>
                                     <div className='mr-4 flex flex-col items-center justify-center'>
-                                        <p>Estado futuro</p>
+                                        <p >{estados.find((estado) => estado.id === parseInt(estadoSeleccionado)).nombre}</p>
                                         <div
                                             className="mt-2 focus:outline-none semibold text-lg mb-5 shadow-md flex bg-white items-center text-gray-800 justify-center w-16 h-16  rounded-xl  font-bold transition-all duration-200"
                                             style={{ borderTopColor: colorSeleccionado ? colorSeleccionado : 'gray', borderTopWidth: '8px' }}

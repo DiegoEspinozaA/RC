@@ -13,12 +13,12 @@ import AgregarEvento from '../forms/AgregarEvento';
 import EditarRegistro from '../forms/EditarRegistro';
 import VerMas from '../forms/VerMas';
 
+
 const Formulario = () => {
     const { state, dispatch } = useAppContext();
 
     const handleClickAgregar = () => {
         dispatch({ type: 'TOGGLE_FORM', form: 'showAgregar', payload: true });
-        dispatch({ type: 'SET_SELECTED_CAMARA', payload: null });
     };
 
     const handleTabClick = (value) => {
@@ -27,20 +27,91 @@ const Formulario = () => {
 
     const [busqueda, setBusqueda] = useState('');
 
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+
+    const [value, setValue] = useState({
+        startDate: new Date(),
+        endDate: new Date().setMonth(11)
+    });
+
+
+
+    const setFilters = () => {
+        setBusqueda('');
+        setFechaFin('');
+        setFechaInicio('');
+    }
+
+
+    const handleValueChange = (newValue) => {
+        console.log("newValue:", newValue);
+        setValue(newValue);
+    }
+
+
+    const [fechaInicio, setFechaInicio] = useState('');
+    const [fechaFin, setFechaFin] = useState('');
+    const [mensajeError, setMensajeError] = useState('');
+    const esPrefijoValido = (input) => {
+        const regexPrefijo = /^(?:(?:\d{1,2})|(?:\d{1,2}-)|(?:\d{1,2}-\d{1,2})|(?:\d{1,2}-\d{1,2}-)|(?:\d{1,2}-\d{1,2}-\d{1,4}))?$/;
+        return regexPrefijo.test(input);
+    };
+
+    const handleChangeFechaInicio = (e) => {
+        const nuevaFecha = e.target.value;
+        if (esPrefijoValido(nuevaFecha)) {
+            setFechaInicio(nuevaFecha);
+            setMensajeError('');
+        } else {
+            setMensajeError("Formato inválido. Utilice DD-MM-AAAA");
+        }
+    };
+
+    const handleChangeFechaFin = (e) => {
+        const nuevaFecha = e.target.value;
+        if (esPrefijoValido(nuevaFecha)) {
+            setFechaFin(nuevaFecha);
+            setMensajeError('');
+        } else {
+            setMensajeError("Formato inválido. Utilice DD-MM-AAAA");
+        }
+    };
+
+
     return (
         <>
             {state.showVerMasForm && <VerMas />}
             {state.showAgregarInformacionForm && <EditarRegistro />}
             {state.showAgregar && <AgregarEvento />}
-
             <Sidebar></Sidebar>
             <div className='xl:ml-80 h-[calc(100vh-32px)] my-4 px-4  max-w-screen rounded-xl transition-transform duration-300 xl:translate-x-0 '>
                 <Nav></Nav>
                 <div className='text-sm  text-black flex flex-col justify-center w-full bg-white p-6 shadow-lg rounded-xl  mt-3'>
-                    <p className='text-xl font-bold text-gray-700 font-base mb-5'>{state.recientesActiveTab === 'eventos' ? 'Eventos capturados' : 'Estados de camaras'}</p>
+                    <div className='flex justify-between'>
+                        <p className='text-xl font-bold text-gray-700 font-base mb-5'>Registros</p>
+                        <TabsDefault
+                            activeTab={state.recientesActiveTab}
+                            data={[
+                                {
+                                    label: "Eventos capturados",
+                                    value: "eventos",
+                                    icon: TbCapture,
+                                },
+                                {
+                                    label: "Estados de camaras",
+                                    value: "estados",
+                                    icon: GiCctvCamera,
+                                },
+                            ]}
+                            onTabClick={handleTabClick} ></TabsDefault>
+                        <p className='text-xl font-bold text-white font-base mb-5'>Registros</p>
+                    </div>
+
+
                     <div className='flex'>
                         <div className="flex text-gray-600 justify-between w-full">
-                            <div>
+                            <div className='flex items-center gap-4'>
                                 <div className="relative">
                                     <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                         <svg
@@ -80,26 +151,35 @@ const Formulario = () => {
                                         )}
                                     </div>
                                 </div>
+                                <label className='semibold'>Fecha inicio</label>
+                                <input
+                                    type="text"
+                                    value={fechaInicio}
+                                    onChange={handleChangeFechaInicio}
+                                    className='py-2 px-4 focus:ring-1 text-sm focus:outline-none border rounded border-gray-300 transition duration-200'
+                                    placeholder="DD-MM-AAAA"
+                                />
+                                <label className='semibold'>Fecha fin</label>
+                                <input
+                                    type="text"
+                                    value={fechaFin}
+                                    onChange={handleChangeFechaFin}
+                                    className='py-2 px-4 focus:ring-1 text-sm focus:outline-none border rounded border-gray-300 transition duration-200'
+                                    placeholder="DD-MM-AAAA"
+                                />
+                                {/* {mensajeError && <div style={{ color: 'red' }}>{mensajeError}</div>} */}
+                                <Button
+                                    variant='outlined'
+                                    className={(fechaFin || fechaInicio) ? "bg-gray-100 hover:bg-gray-300  border rounded-full border-gray-400 transition-all duration-200 text-gray-900 py-1 px-4 ml-4 hover:border-gray-950" : " hidden"}
+                                    onClick={() => setFilters()}
+                                >
+                                    Reiniciar
+                                </Button>
 
                             </div>
 
-                            <TabsDefault
-                                activeTab={state.recientesActiveTab}
-                                data={[
-                                    {
-                                        label: "Eventos",
-                                        value: "eventos",
-                                        icon: TbCapture,
-                                    },
-                                    {
-                                        label: "Estados",
-                                        value: "estados",
-                                        icon: GiCctvCamera,
-                                    },
-                                ]}
-                                onTabClick={handleTabClick} ></TabsDefault>
                             <div className='flex gap-1'>
-                                <Button className="gap-2 bg-gray-900 justify-center shadow-sm hover:shadow-xl text-gray-200 py-2 px-5 rounded flex items-center transition duration-200 ease-in border "
+                                <Button className="gap-2 bg-gray-900 justify-center shadow-sm hover:shadow-xl text-gray-200 py-2 px-5 rounded-lg flex items-center transition duration-200 ease-in border "
                                     onClick={() => handleClickAgregar()}>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -122,7 +202,7 @@ const Formulario = () => {
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 0.4 }}
-                                ><TablaRecientes busqueda={busqueda}></TablaRecientes>
+                                ><TablaRecientes busqueda={busqueda} fechaInicio={fechaInicio} fechaFin={fechaFin}></TablaRecientes>
                                 </motion.div>}
                             {state.recientesActiveTab !== "eventos" &&
 

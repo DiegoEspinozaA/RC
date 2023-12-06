@@ -3,15 +3,20 @@ import { correcta, incorrecta } from '../../Toast/Notificaciones';
 import { Button } from '@material-tailwind/react';
 import { useAppContext } from '../../AppContext';
 import { agregarYSetearRegistros } from "../../fetchApi";
+import { useAuth } from '../../AuthContext';
+
 
 function AgregarEvento() {
     const { state, dispatch } = useAppContext();
     const eventos = state.tiposEventos;
     const camaraSeleccionada = state.selectedCamara;
 
+        
+    const {user} = useAuth();
+
     const [formData, setFormData] = useState({
         tipo: eventos.length > 0 ? eventos[0].tipo : '',
-        responsable: 'Operario 1',
+        responsable: user,
         fecha: '',
         descripcion: '',
         id_camara: camaraSeleccionada ? camaraSeleccionada : '',
@@ -20,7 +25,7 @@ function AgregarEvento() {
     const handleReset = () => {
         setFormData({
             tipo: eventos.length > 0 ? eventos[0].tipo : '',
-            responsable: 'Operario 1',
+            responsable: user,
             fecha: '',
             descripcion: '',
             id_camara: camaraSeleccionada ? camaraSeleccionada : '',
@@ -42,12 +47,10 @@ function AgregarEvento() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const idExiste = state.camaras.some(camara => camara.id === parseInt(formData.id_camara));
-        console.log(idExiste)
         if(!idExiste){
             incorrecta("La camara que ingreso no existe");
             return;
         }
-
         const exito = await agregarYSetearRegistros(formData, dispatch);
         if (exito) {
             correcta("Registro actualizado exitosamente");

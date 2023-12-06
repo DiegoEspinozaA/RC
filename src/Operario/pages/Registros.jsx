@@ -86,23 +86,17 @@ export default function Registros({ busqueda }) {
             key={ubicacion.locacion}
             aria-label={ubicacion.locacion}
             title={
-              <div className='flex w-full items-center'>
+              <div className='flex w-full items-center px-4 gap-2'>
                 {openLocation === ubicacion.locacion ? (
-                  <IconButton >
                     <KeyboardArrowUpIcon></KeyboardArrowUpIcon>
-                  </IconButton>
-
-
                 ) : (
-                  <IconButton>
                     <KeyboardArrowDownIcon ></KeyboardArrowDownIcon>
-                  </IconButton>
                 )}
                 <h1>{ubicacion.locacion}</h1>
               </div>
             }
             onPress={() => toggleLocation(ubicacion.locacion)}
-            className='w-full rounded-lg  p-1 hover:shadow-md transition-all duration-200 mb-3  text-base bg-white border border-zinc-200 shadow-sm'
+            className='w-full rounded-lg hover:shadow-md transition-all duration-200 mb-3  text-base bg-white border border-gray-300 shadow-sm'
           >
             <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-1 mb-3 pr-6">
 
